@@ -320,7 +320,7 @@ $$("[data-year]").forEach(el => { el.textContent = new Date().getFullYear(); });
     requestAnimationFrame(() => viewer.classList.add("open"));
     if (!flip) {
       try { await build(); }
-      catch { bookEl.innerHTML = '<p class="bv-loading">Couldn’t open the preview — use Download PDF above.</p>'; }
+      catch { bookEl.innerHTML = '<p class="bv-loading">Couldn’t open the preview — please try again in a moment.</p>'; }
     }
     $("#bvClose").focus();
     if (location.hash !== "#preview") history.replaceState(null, "", "#preview");
