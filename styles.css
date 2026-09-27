@@ -1271,3 +1271,22 @@ body.is-loading { overflow: hidden; }
 
 .hint-touch { display: none; }
 @media (hover: none) { .hint-desk { display: none; } .hint-touch { display: inline; } }
+
+/* ---------- Copyright & Legal page ---------- */
+.page-hero-sm { padding-bottom: clamp(40px, 6vw, 70px); }
+.page-hero-sm h1 { font-size: clamp(3rem, 8vw, 6.4rem); }
+.legal-section { padding-top: 10px; }
+.legal {
+  max-width: 760px;
+  background: linear-gradient(180deg, var(--night-2), var(--night));
+  border: 1px solid var(--cream-faint);
+  border-radius: 24px;
+  padding: clamp(28px, 5vw, 60px);
+}
+.legal-head { border-bottom: 1px solid var(--cream-faint); padding-bottom: 22px; margin-bottom: 26px; }
+.legal-head h2 { font-family: var(--display); font-weight: 400; text-transform: uppercase; font-size: clamp(1.8rem, 4vw, 2.6rem); margin: 0; }
+.legal-head p { margin: 6px 0 0; color: var(--red); font-weight: 600; letter-spacing: .04em; }
+.legal h3 { font-family: var(--display); font-weight: 400; text-transform: uppercase; font-size: 1.3rem; letter-spacing: .03em; margin: 38px 0 10px; }
+.legal p { color: var(--cream-dim); margin: 0 0 16px; }
+.legal a { color: var(--red); font-weight: 600; }
+.legal-edition { margin-top: 36px; padding-top: 20px; border-top: 1px solid var(--cream-faint); font-size: .85rem; letter-spacing: .14em; text-transform: uppercase; }
