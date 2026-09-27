@@ -754,8 +754,8 @@ body::after {
 
 .footer-main {
   display: grid;
-  grid-template-columns: 1.6fr 1fr 1fr;
-  gap: 40px;
+  grid-template-columns: 1fr auto auto;   /* Explore + Follow sit together on the right */
+  gap: 40px clamp(56px, 7vw, 110px);
   padding: 60px 0;
 }
 .footer-main .footer-badge { width: 170px; }
