@@ -25,7 +25,7 @@
 }
 
 *, *::before, *::after { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; overflow-x: hidden; overflow-x: clip; }   /* nothing may widen the page on phones (it made mobile zoom out) */
 body {
   margin: 0;
   background: var(--night);
@@ -754,7 +754,7 @@ body::after {
 
 .footer-main {
   display: grid;
-  grid-template-columns: 1.3fr 1fr 1fr 1fr;
+  grid-template-columns: 1.6fr 1fr 1fr;
   gap: 40px;
   padding: 60px 0;
 }
