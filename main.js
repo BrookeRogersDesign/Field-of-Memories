@@ -300,9 +300,21 @@ $$("[data-year]").forEach(el => { el.textContent = new Date().getFullYear(); });
     update();
   }
 
+  // While the book is open, pinch-zoom should not zoom the whole page on phones.
+  const vp = document.querySelector('meta[name="viewport"]');
+  const VP_DEFAULT = vp.content;
+  const blockGesture = e => e.preventDefault();         // iOS Safari pinch events
+  function lockZoom(on) {
+    vp.content = on ? VP_DEFAULT + ", maximum-scale=1, user-scalable=no" : VP_DEFAULT;
+    ["gesturestart", "gesturechange"].forEach(t =>
+      on ? document.addEventListener(t, blockGesture, { passive: false })
+         : document.removeEventListener(t, blockGesture));
+  }
+
   async function open(e) {
     e && e.preventDefault();
     lastFocus = document.activeElement;
+    lockZoom(true);
     viewer.hidden = false;
     document.body.style.overflow = "hidden";
     requestAnimationFrame(() => viewer.classList.add("open"));
@@ -314,6 +326,7 @@ $$("[data-year]").forEach(el => { el.textContent = new Date().getFullYear(); });
     if (location.hash !== "#preview") history.replaceState(null, "", "#preview");
   }
   function close() {
+    lockZoom(false);
     viewer.classList.remove("open");
     document.body.style.overflow = "";
     setTimeout(() => { viewer.hidden = true; }, 350);

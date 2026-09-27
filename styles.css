@@ -1239,7 +1239,8 @@ body.is-loading { overflow: hidden; }
   transition: opacity .35s;
 }
 .book-viewer.open { opacity: 1; }
-.book-viewer[hidden] { display: none; }   /* closed viewer must not sit over the page */
+.book-viewer[hidden] { display: none; }
+.book-viewer { touch-action: none; overscroll-behavior: contain; }   /* no page pinch/scroll behind the book */   /* closed viewer must not sit over the page */
 .bv-top {
   display: flex; align-items: center; justify-content: space-between; gap: 16px;
   padding: 16px clamp(16px, 3vw, 32px);
@@ -1269,3 +1270,6 @@ body.is-loading { overflow: hidden; }
   .bv-dl { display: none; }
   .bv-hint { margin-bottom: 12px; }
 }
+
+.hint-touch { display: none; }
+@media (hover: none) { .hint-desk { display: none; } .hint-touch { display: inline; } }
