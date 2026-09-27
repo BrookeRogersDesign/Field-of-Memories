@@ -1277,7 +1277,7 @@ body.is-loading { overflow: hidden; }
 .page-hero-sm h1 { font-size: clamp(3rem, 8vw, 6.4rem); }
 .legal-section { padding-top: 10px; }
 .legal {
-  max-width: 760px;
+  max-width: none;   /* full content width */
   background: linear-gradient(180deg, var(--night-2), var(--night));
   border: 1px solid var(--cream-faint);
   border-radius: 24px;
