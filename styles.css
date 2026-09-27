@@ -34,7 +34,7 @@ body {
   font-size: 17px;
   line-height: 1.7;
   -webkit-font-smoothing: antialiased;
-  overflow-x: hidden;
+  overflow-x: clip;   /* clip (not hidden) so the sticky author card keeps working */
 }
 img { max-width: 100%; height: auto; display: block; }
 a { color: inherit; }
