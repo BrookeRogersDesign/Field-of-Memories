@@ -547,6 +547,7 @@ body::after {
   transition: opacity .35s, visibility .35s;
 }
 .lightbox.open { opacity: 1; visibility: visible; }
+.lightbox[hidden] { display: none; }
 .lb-inner {
   display: grid;
   grid-template-columns: auto 1fr;
@@ -1238,6 +1239,7 @@ body.is-loading { overflow: hidden; }
   transition: opacity .35s;
 }
 .book-viewer.open { opacity: 1; }
+.book-viewer[hidden] { display: none; }   /* closed viewer must not sit over the page */
 .bv-top {
   display: flex; align-items: center; justify-content: space-between; gap: 16px;
   padding: 16px clamp(16px, 3vw, 32px);
