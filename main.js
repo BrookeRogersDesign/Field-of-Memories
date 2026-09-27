@@ -95,20 +95,6 @@ if (heroTilt && finePointer && !reduceMotion) {
   hero.addEventListener("mouseleave", () => { heroTilt.style.transform = ""; });
 }
 
-/* ---------- Photo band parallax ---------- */
-const bandImg = $("#bandImg");
-if (bandImg && !reduceMotion) {
-  const band = bandImg.parentElement;
-  const move = () => {
-    const r = band.getBoundingClientRect();
-    if (r.bottom < 0 || r.top > innerHeight) return;
-    const p = (r.top + r.height / 2 - innerHeight / 2) / innerHeight;
-    bandImg.style.transform = `translateY(${p * -12 - 8}%)`;
-  };
-  addEventListener("scroll", move, { passive: true });
-  move();
-}
-
 /* ---------- The Vault gallery ---------- */
 (function vault() {
   const grid = $("#cardGrid");
@@ -250,4 +236,101 @@ $$("[data-year]").forEach(el => { el.textContent = new Date().getFullYear(); });
     card.style.setProperty("--gy", `${py * 100}%`);
   });
   card.addEventListener("mouseleave", () => { inner.style.setProperty("--rx", "0deg"); inner.style.setProperty("--ry", "0deg"); });
+})();
+
+/* ---------- Look Inside: flipbook preview of the teaser ----------
+   Pages live in book/p01.jpg … book/pNN.jpg (spreads from the PDF split into single pages). */
+(function lookInside() {
+  const viewer = $("#bookViewer");
+  if (!viewer) return;
+  const PAGES = 55;
+  const PAGE_W = 1000, PAGE_H = 1294;              // size of each page image
+  const bookEl = $("#bvBook"), stage = $("#bvStage");
+  const count = $("#bvCount"), prev = $("#bvPrev"), next = $("#bvNext");
+  let flip = null, libLoading = null, lastFocus = null;
+
+  const loadLib = () => libLoading ||= new Promise((res, rej) => {
+    const s = document.createElement("script");
+    s.src = "https://cdn.jsdelivr.net/npm/page-flip@2.0.7/dist/js/page-flip.browser.js";
+    s.onload = res; s.onerror = rej;
+    document.head.appendChild(s);
+  });
+
+  function update() {
+    const i = flip.getCurrentPageIndex();
+    const spread = flip.getOrientation() === "landscape" && i > 0 && i + 1 < PAGES;
+    count.textContent = i === 0 ? "Cover" : spread ? `Pages ${i + 1}–${i + 2} of ${PAGES}` : `Page ${i + 1} of ${PAGES}`;
+    prev.disabled = i === 0;
+    next.disabled = i >= PAGES - 1;
+    // warm up the next few pages so turning feels instant
+    for (let k = i; k < Math.min(PAGES, i + 5); k++) { const img = bookEl.querySelectorAll("img")[k]; if (img) img.loading = "eager"; }
+  }
+
+  async function build() {
+    bookEl.innerHTML = '<p class="bv-loading">Opening the book…</p>';
+    await loadLib();
+    bookEl.innerHTML = "";
+    const pages = [];
+    for (let i = 1; i <= PAGES; i++) {
+      const d = document.createElement("div");
+      d.className = "page";
+      if (i === 1 || i === PAGES) d.dataset.density = "hard";
+      d.innerHTML = `<img src="book/p${String(i).padStart(2, "0")}.jpg" alt="Field of Memories preview page ${i}" loading="${i <= 5 ? "eager" : "lazy"}" draggable="false">`;
+      bookEl.appendChild(d);
+      pages.push(d);
+    }
+    // fit the book to the space available
+    const r = stage.getBoundingClientRect();
+    const maxH = Math.max(320, r.height - 16);
+    const maxW = Math.round(maxH * PAGE_W / PAGE_H);
+    flip = new St.PageFlip(bookEl, {
+      width: 500, height: Math.round(500 * PAGE_H / PAGE_W),
+      size: "stretch",
+      minWidth: 240, maxWidth: maxW,
+      minHeight: 310, maxHeight: maxH,
+      showCover: true,
+      usePortrait: true,
+      drawShadow: true,
+      maxShadowOpacity: 0.5,
+      flippingTime: 750,
+      mobileScrollSupport: false,
+    });
+    flip.loadFromHTML(pages);
+    flip.on("flip", update);
+    update();
+  }
+
+  async function open(e) {
+    e && e.preventDefault();
+    lastFocus = document.activeElement;
+    viewer.hidden = false;
+    document.body.style.overflow = "hidden";
+    requestAnimationFrame(() => viewer.classList.add("open"));
+    if (!flip) {
+      try { await build(); }
+      catch { bookEl.innerHTML = '<p class="bv-loading">Couldn’t open the preview — use Download PDF above.</p>'; }
+    }
+    $("#bvClose").focus();
+    if (location.hash !== "#preview") history.replaceState(null, "", "#preview");
+  }
+  function close() {
+    viewer.classList.remove("open");
+    document.body.style.overflow = "";
+    setTimeout(() => { viewer.hidden = true; }, 350);
+    if (location.hash === "#preview") history.replaceState(null, "", location.pathname + location.search);
+    lastFocus && lastFocus.focus();
+  }
+
+  $$("[data-preview]").forEach(a => a.addEventListener("click", open));
+  $("#bvClose").addEventListener("click", close);
+  prev.addEventListener("click", () => flip && flip.flipPrev());
+  next.addEventListener("click", () => flip && flip.flipNext());
+  addEventListener("keydown", e => {
+    if (viewer.hidden) return;
+    if (e.key === "Escape") close();
+    if (e.key === "ArrowLeft" && flip) flip.flipPrev();
+    if (e.key === "ArrowRight" && flip) flip.flipNext();
+  });
+  // links from the contact page (index.html#preview) open the book straight away
+  if (location.hash === "#preview") open();
 })();

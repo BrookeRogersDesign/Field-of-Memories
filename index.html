@@ -30,7 +30,7 @@
 
   <header class="site-header" id="top">
     <div class="wrap">
-      <a class="brand" href="index.html" aria-label="Vintage Vault home">
+      <a class="brand" href="/" aria-label="Vintage Vault home">
         <img src="vv-badge.png" alt="Vintage Vault">
       </a>
       <button class="menu-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="nav">
@@ -41,7 +41,7 @@
         <a href="#vault">The Vault</a>
         <a href="#author">The Author</a>
         <a href="contact.html">Contact</a>
-        <a class="btn" href="https://www.dropbox.com/scl/fi/o3pmnzwro0rqeu3ep0iyh/FieldofMemories_TEASER.pdf?rlkey=s6azhcti1goe1i5dv93gu29vc&st=ecki05bc&dl=0" target="_blank" rel="noopener">Preview the Book</a>
+        <a class="btn" href="#preview" data-preview>Preview the Book</a>
       </nav>
     </div>
   </header>
@@ -59,7 +59,7 @@
           </h1>
           <p class="hero-tag reveal d2">A Collector’s Journey Back to the Game.</p>
           <div class="hero-ctas reveal d3">
-            <a class="btn" href="https://www.dropbox.com/scl/fi/o3pmnzwro0rqeu3ep0iyh/FieldofMemories_TEASER.pdf?rlkey=s6azhcti1goe1i5dv93gu29vc&st=ecki05bc&dl=0" target="_blank" rel="noopener">
+            <a class="btn" href="#preview" data-preview>
               Preview the Book
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
             </a>
@@ -91,7 +91,7 @@
           <p class="kicker reveal">The Book</p>
           <h2 class="headline reveal d1">Baseball’s Past, <em>held in your hands</em></h2>
           <p class="reveal d2">This book is set-up as a quick read with season recap per year followed by top cards and interesting facts. Easy card look up per year with list and pictures perfect for beginners or a great addition to a seasoned collector.</p>
-          <a class="btn reveal d3" href="https://www.dropbox.com/scl/fi/o3pmnzwro0rqeu3ep0iyh/FieldofMemories_TEASER.pdf?rlkey=s6azhcti1goe1i5dv93gu29vc&st=ecki05bc&dl=0" target="_blank" rel="noopener">
+          <a class="btn reveal d3" href="#preview" data-preview>
             Preview Field of Memories
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
           </a>
@@ -127,11 +127,11 @@
             <p class="kicker reveal">From the Collection</p>
             <h2 class="headline reveal d1">Inside <em>the Vault</em></h2>
             <p class="reveal d2">A few favorites from the shoeboxes. Hover to catch the shine, click a card to pick it up — then flip it over.</p>
+            <p class="vault-more reveal d2">Want to see more? Find Vintage Vault on <a href="https://www.whatnot.com/s/THfKXav6" target="_blank" rel="noopener">Whatnot</a>.</p>
           </div>
           <div class="filters reveal d2" id="filters" role="group" aria-label="Filter cards by decade"></div>
         </div>
         <div class="card-grid" id="cardGrid"></div>
-        <p class="vault-foot">Want to see more? Find Vintage Vault on <a href="https://www.whatnot.com/s/THfKXav6" target="_blank" rel="noopener">Whatnot</a>.</p>
       </div>
     </section>
 
@@ -301,6 +301,24 @@
         </div>
       </div>
     </div>
+  </div>
+
+
+  <!-- Look Inside: flipbook preview of the teaser -->
+  <div class="book-viewer" id="bookViewer" role="dialog" aria-modal="true" aria-label="Field of Memories preview" hidden>
+    <div class="bv-top">
+      <div class="bv-title"><strong>Field of Memories</strong><span>Look Inside · <span id="bvCount">Cover</span></span></div>
+      <div class="bv-actions">
+        <a class="btn btn-line bv-dl" href="https://www.dropbox.com/scl/fi/o3pmnzwro0rqeu3ep0iyh/FieldofMemories_TEASER.pdf?rlkey=s6azhcti1goe1i5dv93gu29vc&st=ecki05bc&dl=0" target="_blank" rel="noopener">Download PDF</a>
+        <button class="lb-btn" id="bvClose" aria-label="Close preview"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+      </div>
+    </div>
+    <div class="bv-stage" id="bvStage">
+      <button class="lb-btn bv-arrow bv-prev" id="bvPrev" aria-label="Previous page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg></button>
+      <div class="bv-book" id="bvBook"></div>
+      <button class="lb-btn bv-arrow bv-next" id="bvNext" aria-label="Next page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></button>
+    </div>
+    <p class="bv-hint">Click or drag a corner to turn the page · ← → keys work too</p>
   </div>
 
   <script src="main.js"></script>
